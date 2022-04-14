@@ -5,12 +5,12 @@ import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const configService = app.get(ConfigService);
-  const user = configService.get('RABBITMQ_USER');
-  const password = configService.get('RABBITMQ_PASSWORD');
-  const host = configService.get('RABBITMQ_HOST');
-  const queueName = configService.get('RABBITMQ_PRODUCT_QUEUE_NAME');
-  const vHost = configService.get('RABBITMQ_VHOST');
+  const config = app.get(ConfigService);
+  const user = config.get('RABBITMQ_USER');
+  const password = config.get('RABBITMQ_PASSWORD');
+  const host = config.get('RABBITMQ_HOST');
+  const queueName = config.get('RABBITMQ_PRODUCT_QUEUE_NAME');
+  const vHost = config.get('RABBITMQ_VHOST');
 
   app.connectMicroservice({
     transport: Transport.RMQ,
@@ -24,6 +24,6 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices();
-  await app.listen(3000);
+  await app.listen(config.get('PORT'));
 }
 bootstrap();

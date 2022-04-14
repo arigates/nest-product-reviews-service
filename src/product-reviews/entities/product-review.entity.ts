@@ -2,11 +2,12 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity, ManyToOne,
+  Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {Product} from "../../products/entities/product.entity";
+import { Product } from '../../products/entities/product.entity';
 
 @Entity()
 export class ProductReview {
@@ -17,7 +18,7 @@ export class ProductReview {
   public comment: string;
 
   @Column({ type: 'integer' })
-  public buyPrice: number;
+  public rating: number;
 
   @ManyToOne(() => Product, (product) => product.reviews)
   public product: Product;

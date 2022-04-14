@@ -1,34 +1,53 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ProductReviewsService } from './product-reviews.service';
 import { CreateProductReviewDto } from './dto/create-product-review.dto';
 import { UpdateProductReviewDto } from './dto/update-product-review.dto';
 
-@Controller('product-reviews')
+@Controller('products/:productId/reviews')
 export class ProductReviewsController {
   constructor(private readonly productReviewsService: ProductReviewsService) {}
 
   @Post()
-  create(@Body() createProductReviewDto: CreateProductReviewDto) {
-    return this.productReviewsService.create(createProductReviewDto);
+  create(
+    @Param('productId') productId: string,
+    @Body() createProductReviewDto: CreateProductReviewDto,
+  ) {
+    return this.productReviewsService.create(productId, createProductReviewDto);
   }
 
   @Get()
-  findAll() {
-    return this.productReviewsService.findAll();
+  byProduct(@Param('productId') productId: string) {
+    return this.productReviewsService.byProduct(productId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productReviewsService.findOne(+id);
+  findOne(@Param('productId') productId: string, @Param('id') id: string) {
+    return this.productReviewsService.findOne(productId, id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductReviewDto: UpdateProductReviewDto) {
-    return this.productReviewsService.update(+id, updateProductReviewDto);
+  update(
+    @Param('productId') productId: string,
+    @Body() updateProductReviewDto: UpdateProductReviewDto,
+    @Param('id') id: string,
+  ) {
+    return this.productReviewsService.update(
+      productId,
+      updateProductReviewDto,
+      id,
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productReviewsService.remove(+id);
+  remove(@Param('productId') productId: string, @Param('id') id: string) {
+    return this.productReviewsService.remove(productId, id);
   }
 }

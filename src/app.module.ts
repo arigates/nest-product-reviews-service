@@ -6,6 +6,7 @@ import { TypeOrmConfigService } from './config/typeorm.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Product } from './products/entities/product.entity';
+import { GlobalModule } from './global.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { Product } from './products/entities/product.entity';
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     TypeOrmModule.forFeature([Product]),
     ProductReviewsModule,
+    GlobalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
