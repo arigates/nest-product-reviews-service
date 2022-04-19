@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { EventPattern } from '@nestjs/microservices';
+import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
@@ -12,7 +12,7 @@ export class AppController {
   }
 
   @EventPattern('product-created')
-  async handleProductCreate(data: Record<string, unknown>) {
-    await this.appService.createProduct(data);
+  async handleProductCreate(@Payload() data: string, @Ctx() context: RmqContext) {
+    await this.appService.createProduct(JSON.parse(data));
   }
 }

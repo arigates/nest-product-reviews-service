@@ -28,7 +28,7 @@ export class ProductReviewsService {
     }
 
     const productReview: ProductReview =
-      await this.productReviewRepository.create({
+      this.productReviewRepository.create({
         ...createProductReviewDto,
         product,
       });
@@ -57,11 +57,10 @@ export class ProductReviewsService {
     const rating = averageFunc(ratings).toFixed(2);
 
     // emit update to product service
-    await this.clientProxy.connect();
-    this.clientProxy.emit('product-rating-updated', {
+    this.clientProxy.emit('product-rating-updated', JSON.stringify({
       productId: productId,
       rating: rating,
-    });
+    }));
 
     (productWithReviews as any).avg_rating = rating;
 
